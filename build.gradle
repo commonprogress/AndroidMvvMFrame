@@ -1,0 +1,31 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext {
+        //打包的版本号以及版本信息
+        versionCode = 1
+        versionName = "1.0.0"
+        //打包用的报名
+        applicationId = "com.jhonjson.androidframe"
+        //使用sdk版本
+        compileSdkVersion = 32
+        //build的版本
+        buildToolsVersion = "30.0.3"
+        //最小的版本
+        minSdkVersion = 22
+        //目标版本
+        targetSdkVersion = 32
+
+        //使用的jvm至少是1.8版本的
+        jvmTarget = '1.8'
+    }
+}
+
+plugins {
+    id 'com.android.application' version '7.2.1' apply false
+    id 'com.android.library' version '7.2.1' apply false
+    id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
