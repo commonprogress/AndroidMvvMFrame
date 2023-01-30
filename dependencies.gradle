@@ -1,15 +1,14 @@
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
+
+
 
 android {
-
-    def DEV_API_URL = "\"https://stage-xinlangv2.app.wondertemple.com\""
-    def STAG_API_URL = "\"https://stage-xinlangv2.app.wondertemple.com\""
-    def GRAY_API_URL = "\"https://grey-xinlangv2.app.wondertemple.com\""
-    def OFF_API_URL = "\"https://xinlangv2.app.wondertemple.com\""
-
-    def TALKINGDATA_APP_ID_TEST = "\"C0F9194682C74765AFA759DCF411980C\""
-    def TALKINGDATA_APP_ID = "\"E7876BC60DE942C9948B3B660AE121FC\""
+    def DEV_API_URL = "\"https://dev.app.wondertemple.com\""
+    def STAG_API_URL = "\"https://stage.app.wondertemple.com\""
+    def GRAY_API_URL = "\"https://grey.app.wondertemple.com\""
+    def OFF_API_URL = "\"https://app.wondertemple.com\""
 
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
@@ -22,7 +21,6 @@ android {
 
         buildConfigField("String", "BASE_API", "${OFF_API_URL}")
         multiDexEnabled = true
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -161,6 +159,14 @@ android {
         }
     }
 
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
 }
 
 dependencies {
@@ -195,6 +201,9 @@ dependencies {
     implementation "io.coil-kt:coil-gif:2.1.0"
     implementation "io.coil-kt:coil-svg:2.1.0"
     implementation "io.coil-kt:coil-video:2.1.0"
+
+    // 事件总线
+    implementation("org.greenrobot:eventbus:3.3.1")
 
     // 自动生成SPI暴露服务文件
     implementation "com.google.auto.service:auto-service:1.0-rc6"

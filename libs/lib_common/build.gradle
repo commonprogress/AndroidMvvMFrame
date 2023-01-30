@@ -1,12 +1,10 @@
 apply plugin: 'com.android.library'
-
 apply from: '../../dependencies.gradle'
 
 android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
-
         }
     }
 

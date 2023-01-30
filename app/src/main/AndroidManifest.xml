@@ -4,7 +4,7 @@
     package="com.jhonjson.androidmvvmframe">
 
     <application
-        android:name="com.xinlang.common.CommonApplication"
+        android:name="com.jhonjson.common.CommonApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
