@@ -12,8 +12,7 @@ object RouteLoginUtils {
      */
     private const val LOGIN = "/login/"
 
-    const val LOGINACTIVITY = LOGIN +"LoginActivity"
+    const val Login_LoginActivity = LOGIN +"LoginActivity"
 
-    const val LOGIN_ON_KEY_ACTIVITY = LOGIN +"OneKeyLoginActivity"
 
 }

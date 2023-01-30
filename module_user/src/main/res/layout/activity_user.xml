@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/tvUser"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:text="点击获取我的用户数据"
+        android:textColor="@color/white"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:background="@color/black"/>
+
+    <TextView
+        android:id="@+id/tvShowUser"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:text="显示登陆用户信息"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@color/black"/>
+
+</LinearLayout>

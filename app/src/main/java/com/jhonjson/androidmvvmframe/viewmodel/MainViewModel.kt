@@ -3,9 +3,6 @@ package com.jhonjson.androidmvvmframe.viewmodel
 import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.jhonjson.androidmvvmframe.model.MainModel
 import com.jhonjson.common.utils.IOUtils
 import com.jhonjson.lib_base.commonality.base.viewmodel.BaseViewModel

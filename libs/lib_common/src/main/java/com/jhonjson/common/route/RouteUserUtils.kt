@@ -11,7 +11,6 @@ object RouteUserUtils {
      */
     private const val USER = "/user/"
 
-    const val User_Fragment = USER + "UserFragment"
-    const val ReUser_Fragment = USER + "ReUserFragment"
+    const val User_UserActivity = USER + "UserActivity"
 
 }

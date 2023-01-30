@@ -17,6 +17,9 @@ buildscript {
 
         //使用的jvm至少是1.8版本的
         jvmTarget = '1.8'
+
+        abiFilters = ["armeabi-v7a", "arm64-v8a", "x86","x86_64"] as String[]
+
     }
 }
 

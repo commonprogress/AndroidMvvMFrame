@@ -14,7 +14,7 @@ class MainModel {
     }
 
     private object Instance {
-        val instance = MainModel()
+        val instance = LoginModel()
     }
 
 

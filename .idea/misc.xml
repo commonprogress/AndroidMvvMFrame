@@ -8,6 +8,9 @@
         <entry key="libs/lib_base/src/main/res/drawable/ic_launcher_background.xml" value="0.1375" />
         <entry key="libs/lib_base/src/main/res/layout/content_main.xml" value="0.1" />
         <entry key="libs/lib_common/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1375" />
+        <entry key="module_login/src/main/res/layout/activity_login.xml" value="0.128125" />
+        <entry key="module_user/src/main/res/layout/activity_login.xml" value="0.128125" />
+        <entry key="module_user/src/main/res/layout/activity_user.xml" value="0.18020833333333333" />
       </map>
     </option>
   </component>

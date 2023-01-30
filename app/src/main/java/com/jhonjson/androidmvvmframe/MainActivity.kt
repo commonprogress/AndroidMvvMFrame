@@ -2,13 +2,12 @@ package com.jhonjson.androidmvvmframe
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
 import com.jhonjson.androidmvvmframe.databinding.ActivityMainBinding
-import com.jhonjson.androidmvvmframe.viewmodel.MainViewModel
+import com.jhonjson.androidmvvmframe.viewmodel.LoginViewModel
 import com.jhonjson.common.activity.BaseMvvmActivity
 import com.jhonjson.lib_base.commonality.ktx.clickDelay
 
-class MainActivity : BaseMvvmActivity<ActivityMainBinding, MainViewModel>() {
+class MainActivity : BaseMvvmActivity<ActivityMainBinding, LoginViewModel>() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

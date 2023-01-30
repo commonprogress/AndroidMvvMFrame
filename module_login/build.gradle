@@ -1,0 +1,61 @@
+if (!singleModule.toBoolean()) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+apply from: '../dependencies.gradle'
+
+android {
+    sourceSets {
+        main {
+            if (!singleModule.toBoolean()) {
+                //如果是library，则编译manifest下AndroidManifest.xml
+                manifest.srcFile 'src/main/manifest/AndroidManifest.xml'
+            } else {
+                //如果是application，则编译主目录下AndroidManifest.xml
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }
+        }
+    }
+    defaultConfig {
+        if (singleModule.toBoolean()) {
+            applicationId rootProject.applicationId
+        }
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+
+        ndk {
+            abiFilters rootProject.ext.abiFilters
+        }
+    }
+
+
+    buildTypes {
+        debug {}
+        stagdebug {
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+        stagrelease {
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+        release {
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar", '*.aar'])
+    implementation project(':libs:lib_common')
+
+    annotationProcessor 'com.alibaba:arouter-compiler:1.5.2'
+}
