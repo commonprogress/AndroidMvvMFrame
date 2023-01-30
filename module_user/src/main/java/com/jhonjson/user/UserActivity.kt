@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.jhonjson.androidmvvmframe.viewmodel.UserViewModel
-import com.jhonjson.common.activity.BaseMvvmActivity
-import com.jhonjson.common.route.RouteUserUtils
-import com.jhonjson.lib_base.commonality.ktx.clickDelay
+import com.common.activity.BaseMvvmActivity
+import com.common.route.RouteUserUtils
+import com.base.commonality.ktx.clickDelay
 import com.jhonjson.user.databinding.ActivityUserBinding
 
 @Route(path = RouteUserUtils.User_UserActivity)

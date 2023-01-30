@@ -1,0 +1,42 @@
+package com.base.commonality.utils
+
+import android.os.Bundle
+
+/**
+ * @Author: jhosnjson
+ * @Time: 2023/1/30
+ * - 文件描述 : 视图，activity，fragment重建帮助类
+ */
+open class ViewRecreateHelper(savedInstanceState: Bundle?=null) {
+    /**
+     * 重建标记key
+     */
+    private val KEY_RECREATE = "recreate"
+
+    /**
+     * 是否重建
+     */
+    var isRecreate = false
+        private set
+
+    init {
+        if (savedInstanceState!=null) {
+            this.onSaveInstanceState(savedInstanceState)
+        }
+    }
+
+    /**
+     * 恢复状态
+     */
+    open fun onRestoreInstanceStatus(savedInstanceState: Bundle?) {
+        isRecreate = savedInstanceState?.getBoolean(KEY_RECREATE) ?: false
+    }
+
+    /**
+     * 保存状态
+     */
+    open fun onSaveInstanceState(bundle: Bundle) {
+        bundle.putBoolean(KEY_RECREATE, true)
+    }
+
+}

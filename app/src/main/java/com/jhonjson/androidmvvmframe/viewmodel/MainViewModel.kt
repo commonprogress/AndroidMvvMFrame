@@ -4,8 +4,8 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import com.jhonjson.androidmvvmframe.model.MainModel
-import com.jhonjson.common.utils.IOUtils
-import com.jhonjson.lib_base.commonality.base.viewmodel.BaseViewModel
+import com.common.utils.IOUtils
+import com.base.commonality.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.launch
 
 /**

@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import com.jhonjson.androidmvvmframe.databinding.ActivityMainBinding
 import com.jhonjson.androidmvvmframe.viewmodel.LoginViewModel
-import com.jhonjson.common.activity.BaseMvvmActivity
-import com.jhonjson.lib_base.commonality.ktx.clickDelay
+import com.common.activity.BaseMvvmActivity
+import com.base.commonality.ktx.clickDelay
 
 class MainActivity : BaseMvvmActivity<ActivityMainBinding, LoginViewModel>() {
 
