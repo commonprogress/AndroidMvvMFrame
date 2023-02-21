@@ -8,7 +8,7 @@ AndroidMvvMFrame 是一个Android简单易用的项目框架
 
 希望这个框架项目能给大家带来帮助，喜欢可以Start🌟。
 
-[AndroidMviFrame项目地址](https://github.com/commonprogress/AndroidMVIFrame)
+[AndroidMvvMFrame项目地址](https://github.com/commonprogress/AndroidMvvMFrame)
 
 #### 模块
 
