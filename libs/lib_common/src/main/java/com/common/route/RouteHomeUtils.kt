@@ -12,6 +12,6 @@ object RouteHomeUtils {
     private const val HOME = "/home/"
 
     const val Home_Fragment = HOME + "HomeFragment"
-    const val ClubHomeFragment = HOME + "ClubHomeFragment"
+    const val Home_HomeActivity = HOME + "HomeActivity"
 
 }

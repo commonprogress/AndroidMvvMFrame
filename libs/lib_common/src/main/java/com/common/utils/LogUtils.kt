@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.viewbinding.BuildConfig
 import com.common.utils.LogUtils.logEnable
 import com.base.commonality.BaseAppliction
+import com.base.commonality.utils.IOUtils
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream

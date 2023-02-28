@@ -1,11 +1,15 @@
-package com.jhonjson.androidmvvmframe.viewmodel
+package com.jhonjson.user.viewmodel
 
 import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
-import com.jhonjson.androidmvvmframe.model.UserModel
-import com.common.utils.IOUtils
+import com.base.commonality.utils.IOUtils
 import com.base.commonality.base.viewmodel.BaseViewModel
+import com.jhonjson.user.model.WanBean
+import com.jhonjson.user.repo.UserRepository
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 /**
@@ -13,31 +17,49 @@ import kotlinx.coroutines.launch
  * 创建人: jhonjson
  * 创建时间: 2021/7/22
  */
-class UserViewModel(application: Application) : BaseViewModel(application) {
-    var value = MutableLiveData<String>()
+class UserViewModel : BaseViewModel() {
+    //StateFlow UI层通过该引用观察数据变化
+    private val _homeFlow = MutableStateFlow<List<WanBean>>(ArrayList())
+    val mHomeFlow = _homeFlow
 
-    fun initData(bundle: Bundle?) {
+    /**
+     * 使用场景：一次性消费场景，比如弹窗，需求是在UI层只弹一次，即使App切到后台再切回来，也不会重复订阅(不会多次弹窗)；
+     * 如果使用SharedFlow/StateFlow，UI层使用的lifecycle.repeatOnLifecycle、Flow.flowWithLifecycle，则在App切换前后台时，UI层会重复订阅
+     * Channel使用特点：
+     * 1、每个消息只有一个订阅者可以收到，用于一对一的通信
+     * 2、第一个订阅者可以收到collect之前的事件，即粘性事件
+     */
+    private val _channel = Channel<List<WanBean>>()
+    val channelFlow = _channel.receiveAsFlow()
 
+    //LiveData UI层通过该引用观察数据变化
+    val mHomeLiveData = MutableLiveData<List<WanBean>>()
+
+    //Repository中间层 管理所有数据来源 包括本地的及网络的
+    private val mHomeRepo = UserRepository()
+
+
+    /**
+     * Flow方式
+     */
+    fun getWanInfoByFlow(wanId: String = "") = requestDataWithFlow(modelFlow = _homeFlow) {
+        mHomeRepo.requestWanData(wanId)
     }
 
     /**
-     * 获取用户信息
+     * Channel方式 一对一
      */
-    fun getUserInfo() {
-        IOUtils.ioScope.launch {
-            value.value = UserModel.singleton.getUserInfo()
-        }
-
-//        MainModel.singleton.upDateTip()?.onEach {
-//            if (it.code == 0) {
-//                versionUpdateBean.value = it.data!!
-//            } else {
-//                errorCode.value = 10001
-//            }
-//        }?.catch {
-//            errorCode.value = 10001
-//            log("upDateTip：更新版本 失败")
-//        }?.launchIn(viewModelScope)
+    fun getWanInfoByChannel(wanId: String = "") = requestDataWithSingleFlow(channel = _channel) {
+        mHomeRepo.requestWanData(wanId)
     }
+
+
+    /**
+     * LiveData方式
+     */
+    fun getWanInfo(wanId: String = "") {
+        launchRequest(liveData = mHomeLiveData) { mHomeRepo.requestWanData(wanId) }
+    }
+
 
 }

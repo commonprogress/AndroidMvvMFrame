@@ -3,19 +3,18 @@ package com.common
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import com.google.auto.service.AutoService
-import com.common.utils.IOUtils
+import com.base.commonality.utils.IOUtils
 import com.common.utils.ProcessUtils
 import com.common.utils.log
 import com.base.commonality.BaseAppliction
-import com.base.commonality.lifecycle.ApplicationLifecycle
-import com.base.commonality.lifecycle.InitDepend
+import com.common.net.RetrofitUtil
 import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection
 import kotlinx.coroutines.*
 
-@AutoService(ApplicationLifecycle::class)
-class CommonApplication : BaseAppliction(), ApplicationLifecycle {
+class CommonApplication : BaseAppliction() {
 
     companion object {
         /**
@@ -35,45 +34,27 @@ class CommonApplication : BaseAppliction(), ApplicationLifecycle {
 //        SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
 //            LoadingRefreshFooter(context)
 //        }
-
     }
 
-    override fun onAttachBaseContext(context: Context) {
-
+    override fun onCreate() {
+        super.onCreate()
+        initMainDesk()
     }
 
-    override fun onCreate(application: Application) {
-    }
-
-    /**
-     * 同[BaseAppliction.onTerminate]
-     * @param BaseAppliction Application
-     */
-    override fun onTerminate(application: Application) {
+    override fun onTerminate() {
+        super.onTerminate()
         IOUtils.cancel()
-    }
-
-    /**
-     * 不需要立即初始化的放在这里进行后台初始化
-     */
-    override fun initByBackstage() {
-
     }
 
     /**
      * 需要立即初始化的放在这里
      */
-    override fun initByFrontDesk(): InitDepend {
-
-        val worker = mutableListOf<() -> String>()
-        val main = mutableListOf<() -> String>()
-        // 以下只需要在主进程当中初始化 按需要调整
-        if (ProcessUtils.isMainProcess(mContext)) {
-            main.add { initMMKV() }
-            main.add { initARouter() }
-            main.add { initFileDownloader() }
-        }
-        return InitDepend(main, worker)
+    private fun initMainDesk() {
+        initMMKV()
+        initARouter()
+        initRetrofitUtil()
+        initFileDownloader()
+        Log.e("initMainDesk", "initMainDesk -->> init complete")
     }
 
 
@@ -95,6 +76,12 @@ class CommonApplication : BaseAppliction(), ApplicationLifecycle {
         return "CApplication 文件下载引擎 -->> init complete"
     }
 
+
+    private fun initRetrofitUtil(): String {
+//        Log.e("文件下载引擎 初始化", "文件下载引擎 初始化")
+        RetrofitUtil.initRetrofit()
+        return "CApplication 文件下载引擎 -->> init complete"
+    }
 
 
 }

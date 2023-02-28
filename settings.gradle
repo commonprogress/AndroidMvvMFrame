@@ -25,5 +25,5 @@ include ':app'
 include ':libs:lib_common'
 include ':libs:lib_base'
 
-include ':module_login'
+include ':module_home'
 include ':module_user'

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textview_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home界面"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tvWebview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="点击跳转webview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvUser"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="80dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="点击获取Banner数据"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tvShowUser"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="显示用户信息"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tvUser1"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="80dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="点击获取list数据"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tvShowUser1"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="显示用户信息"
+        android:textColor="@color/white" />
+
+</LinearLayout>

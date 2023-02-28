@@ -223,7 +223,7 @@ fun View.getViewId(): Int {
 object ViewClickDelay {
     var hash: Int = 0
     var lastClickTime: Long = 0
-    var SPACE_TIME: Long = 2000  // 间隔时间
+    var SPACE_TIME: Long = 340  // 间隔时间
 }
 
 /**

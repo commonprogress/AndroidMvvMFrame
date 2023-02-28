@@ -3,11 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.18958333333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.1" />
         <entry key="libs/lib_base/src/main/res/drawable/ic_launcher_background.xml" value="0.1375" />
         <entry key="libs/lib_base/src/main/res/layout/content_main.xml" value="0.1" />
         <entry key="libs/lib_common/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1375" />
+        <entry key="libs/lib_common/src/main/res/drawable/shape_load_bg.xml" value="0.139" />
+        <entry key="libs/lib_common/src/main/res/layout/layout_loading_view.xml" value="0.18333333333333332" />
+        <entry key="libs/lib_common/src/main/res/layout/lib_dialog_default_empty.xml" value="0.18333333333333332" />
+        <entry key="libs/lib_common/src/main/res/layout/lib_dialog_default_error.xml" value="0.18333333333333332" />
         <entry key="module_login/src/main/res/layout/activity_login.xml" value="0.128125" />
         <entry key="module_user/src/main/res/layout/activity_login.xml" value="0.128125" />
         <entry key="module_user/src/main/res/layout/activity_user.xml" value="0.18020833333333333" />

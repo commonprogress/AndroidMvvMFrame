@@ -8,8 +8,7 @@ package com.common.serve
  */
 object ComServerApi {
 
+    const val API_BANNER = "banner/json"
 
-    //上传图片所需信息
-    //直播:live， 短视频:video，头像:avatar，举报:report，消息:message  朋友圈:moments
-    const val APP_UPLOAD_COVER = "/api/v1/video/upload/cover"
+    const val API_COIN_RANK = "coin/rank/1/json"
 }
