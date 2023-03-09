@@ -122,21 +122,6 @@ dependencies {
 至此组件化就配置完成了。
 
 
-
-#### MVI
-
-![mvi_1](mvi_1.webp)
-
-- **Model层**: 它是一个 ViewModel，其中执行不同的同步或异步任务。它接受 UserIntents 作为输入并产生一个或多个连续状态作为输出。
-
-- **View层**: 视图只是处理它从 ViewModel 接收到的不可变状态以更新 UI。它还允许将用户操作传输到 ViewModel 以完成定义的任务。
-
-- **Intent层**: 表示用户与 UI 交互时的意图。例如，单击按钮刷新数据列表将被建模为 Intent。为了避免与 Android 框架 Intent 混淆，我们将在本文的其余部分将其称为 UserIntent。。
-
-  
-
-关于MVI base层的封装这里不在过多叙述，感兴趣的可以直接clone项目研究，这里我们就是说如何使用。
-
 这里我们以module_home为例：
 
 第一步：在项目里添加service文件夹，创建HomeService接口类
