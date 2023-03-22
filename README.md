@@ -123,19 +123,21 @@ dependencies {
 
 
 
-#### MVI
+#### Mvvm
 
-![mvi_1](mvi_1.webp)
+![mvvm_1](/Users/jhonjson/Desktop/mvvm_1.png)
 
-- **Model层**: 它是一个 ViewModel，其中执行不同的同步或异步任务。它接受 UserIntents 作为输入并产生一个或多个连续状态作为输出。
+MVVM分为Model，View，ViewModel 三个部分
 
-- **View层**: 视图只是处理它从 ViewModel 接收到的不可变状态以更新 UI。它还允许将用户操作传输到 ViewModel 以完成定义的任务。
+Model:数据层，包含数据实体和对数据实体的操作,和MVP的model没有区别。
 
-- **Intent层**: 表示用户与 UI 交互时的意图。例如，单击按钮刷新数据列表将被建模为 Intent。为了避免与 Android 框架 Intent 混淆，我们将在本文的其余部分将其称为 UserIntent。。
+View: 界面层，对应于Activity，XML，负责数据显示以及用户交互。相比MVP的view，这里面的 view视图数据一般是在xml中使用DataBinding进来双向绑定数据的。    
 
-  
+ViewModel：关联层，作为中间桥梁 去通知model数据层处理数据业务，并将结果回调给 UI 层处 理 UI 逻辑。ViewModel中只有activity持有vm引用，vm是不持有view的引用的，所以vm的构造方 法中不能传入视图相关的对象。
 
-关于MVI base层的封装这里不在过多叙述，感兴趣的可以直接clone项目研究，这里我们就是说如何使用。
+
+
+关于Mvsvm base层的封装这里不在过多叙述，感兴趣的可以直接clone项目研究，这里我们就是说如何使用。
 
 这里我们以module_home为例：
 
@@ -177,69 +179,53 @@ class HomeRepo : BaseRepository() {
 }
 ```
 
-第三步：添加HomeMviState状态
+第三步：封装Model调用网络接口
 
 ``
 
 ```
-data class MviState(val bannerUiState: BannerUiState, val detailUiState: DetailUiState?) : IUiState
+class HomeViewModel : BaseViewModel() {
+    //StateFlow UI层通过该引用观察数据变化
+    private val _homeFlow = MutableStateFlow<List<WanBean>>(ArrayList())
+    val mHomeFlow = _homeFlow
 
-sealed class BannerUiState {
-    object INIT : BannerUiState()
-    data class SUCCESS(val models: List<WanBean>) : BannerUiState()
-}
+    /**
+     * 使用场景：一次性消费场景，比如弹窗，需求是在UI层只弹一次，即使App切到后台再切回来，也不会重复订阅(不会多次弹窗)；
+     * 如果使用SharedFlow/StateFlow，UI层使用的lifecycle.repeatOnLifecycle、Flow.flowWithLifecycle，则在App切换前后台时，UI层会重复订阅
+     * Channel使用特点：
+     * 1、每个消息只有一个订阅者可以收到，用于一对一的通信
+     * 2、第一个订阅者可以收到collect之前的事件，即粘性事件
+     */
+    private val _channel = Channel<List<WanBean>>()
+    val channelFlow = _channel.receiveAsFlow()
 
-data class MviSingleUiState(val message: String) : ISingleUiState
-sealed class DetailUiState {
-    object INIT : DetailUiState()
-    data class SUCCESS(val detail: RankBean) : DetailUiState()
-}
-```
+    //LiveData UI层通过该引用观察数据变化
+    val mHomeLiveData = MutableLiveData<List<WanBean>>()
 
-第四步：封装Model调用网络接口
+    //Repository中间层 管理所有数据来源 包括本地的及网络的
+    private val mHomeRepo = HomeRepository()
 
-``
 
-```
-class HomeMviModel : BaseMviModel<MviState, MviSingleUiState>() {
-    private val mLoginRepo = HomeRepo()
-
-    fun initData(bundle: Bundle?) {
-
-    }
-
-    override fun initUiState(): MviState {
-        return MviState(BannerUiState.INIT, DetailUiState.INIT)
+    /**
+     * Flow方式
+     */
+    fun getWanInfoByFlow(wanId: String = "") = requestDataWithFlow(modelFlow = _homeFlow) {
+        mHomeRepo.requestWanData(wanId)
     }
 
     /**
-     * 获取banner信息
+     * Channel方式 一对一
      */
-    fun loadBannerData() {
-        requestDataWithFlow(
-            showLoading = true,
-            request = { mLoginRepo.requestWanData("12345") },
-            successCallback = { data ->
-                sendUiState {
-                    copy(bannerUiState = BannerUiState.SUCCESS(data))
-                }
-            },
-            failCallback = {}
-        )
+    fun getWanInfoByChannel(wanId: String = "") = requestDataWithSingleFlow(channel = _channel) {
+        mHomeRepo.requestWanData(wanId)
     }
 
-    //请求List数据
-    fun loadDetailData() {
-        requestDataWithFlow(
-            showLoading = false,
-            request = { mLoginRepo.requestRankData() },
-            successCallback = { data ->
-                sendUiState {
-                    copy(detailUiState = DetailUiState.SUCCESS(data))
-                }
-            },
-            failCallback = {}
-        )
+
+    /**
+     * LiveData方式
+     */
+    fun getWanInfo(wanId: String = "") {
+        launchRequest(liveData = mHomeLiveData) { mHomeRepo.requestWanData(wanId) }
     }
 
 }
@@ -252,22 +238,33 @@ class HomeMviModel : BaseMviModel<MviState, MviSingleUiState>() {
 ```
 private val mViewModel: HomeMviModel by viewModels()
 
-调用接口
+//调用接口
 mViewModel.loadDetailData()
 
-获取后台数据
-mViewModel.uiStateFlow.flowWithLifecycle2(
-            this, Lifecycle.State.STARTED,
-            prop1 = MviState::detailUiState
-        ) { state ->
-            when (state) {
-                is DetailUiState.INIT -> {}
-                is DetailUiState.SUCCESS -> {
-                    val list = state.detail.datas
-                    mBinding.tvShowUser1.text = "显示Banner数据2：${Gson().toJson(list)}"
-                }
-            }
+//接收数据的地方三种方式可供选择
+override fun retryRequest() {
+        /**
+         * Flow方式订阅数据
+         * 如果使用封装的flowSingleWithLifecycle2来接收数据，那么不会在前后台切换时重复订阅数据
+         */
+//        mViewModel.mHomeFlow.flowWithLifecycle2(this) { list ->
+//            log("retryRequest  retryRequest list 00  ${Gson().toJson(list)}")
+//            mBinding.tvShowUser.text = Gson().toJson(list).toString()
+//        }
+//
+//        /**
+//         * Channel方式订阅数据 只能一对一
+//         */
+        mViewModel.channelFlow.flowWithLifecycle2(this) { list ->
+            log("retryRequest  retryRequest list 11  ${Gson().toJson(list)}")
+            mBinding.tvShowUser.text = Gson().toJson(list).toString()
         }
+
+        mViewModel.mHomeLiveData.observe(this) { list ->
+            mBinding.tvShowUser.text = Gson().toJson(list).toString()
+            log("retryRequest  retryRequest list   ${Gson().toJson(list)}")
+        }
+    }
 ```
 
 `
