@@ -122,7 +122,6 @@ dependencies {
 至此组件化就配置完成了。
 
 
-
 #### Mvvm
 
 ![mvvm_1](/Users/jhonjson/Desktop/mvvm_1.png)
@@ -138,6 +137,7 @@ ViewModel：关联层，作为中间桥梁 去通知model数据层处理数据�
 
 
 关于Mvsvm base层的封装这里不在过多叙述，感兴趣的可以直接clone项目研究，这里我们就是说如何使用。
+
 
 这里我们以module_home为例：
 
